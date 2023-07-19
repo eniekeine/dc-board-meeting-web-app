@@ -1,0 +1,32 @@
+{
+    "keywords" : [
+        {
+            "displayname": "c++",
+            "alias" : ["c++", "C++"]
+        },
+        {
+            "displayname" : "react",
+            "alias" : ["react.js"]
+        },
+        {
+            "displayname" : "java",
+            "alias" : ["java", "Java", "JAVA", "자바"]
+        },
+        {
+            "displayname" : "javascript",
+            "alias" : ["javascript", "js", "자바스크립트"]
+        },
+        {
+            "displayname": "c",
+            "alias":["c", "C"]
+        },
+        {
+            "displayname": "python",
+            "alias":["python", "Python", "파이선", "파이썬"]
+        },
+        {
+            "displayname": "R",
+            "alias":["R"]
+        }
+    ]
+}
