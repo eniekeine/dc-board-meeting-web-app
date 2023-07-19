@@ -1,10 +1,7 @@
 import sys
 import asyncio
-import random
-import re
 import sqlite3
-sys.path.insert(0, 'C:/Dropbox/Notes/컴퓨터/스크립팅 언어/파이선/라이브러리/dcinside-python3-api/repo')
-import dc_api
+from dc_api import dc_api
 
 last_id = sys.maxsize
 board_id = "programming"
