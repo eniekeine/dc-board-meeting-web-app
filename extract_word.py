@@ -62,9 +62,6 @@ def convet_to_csv(word_score_table):
             file.write('\n')
 
 
-board_id = "programming"
-db_file_name = "dcinside_corpus.db"
-db_table_name = "board_programming"
 strs = None
 # 파일로 추출
 with open("corpus_merged.txt", "rt", encoding='utf-8') as file:
