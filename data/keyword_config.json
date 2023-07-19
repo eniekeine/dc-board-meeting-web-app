@@ -2,31 +2,23 @@
     "keywords" : [
         {
             "displayname": "c++",
-            "alias" : ["c++", "C++"]
+            "pattern" : "c\\+\\+|C\\+\\+"
         },
         {
             "displayname" : "react",
-            "alias" : ["react.js"]
+            "pattern" : "react|react\\.js"
         },
         {
             "displayname" : "java",
-            "alias" : ["java", "Java", "JAVA", "자바"]
+            "pattern" : "java|Java|JAVA|자바"
         },
         {
             "displayname" : "javascript",
-            "alias" : ["javascript", "js", "자바스크립트"]
-        },
-        {
-            "displayname": "c",
-            "alias":["c", "C"]
+            "pattern" : "javascript|js|자바스크립트"
         },
         {
             "displayname": "python",
-            "alias":["python", "Python", "파이선", "파이썬"]
-        },
-        {
-            "displayname": "R",
-            "alias":["R"]
+            "pattern": "python|Python|파이선|파이썬"
         }
     ]
 }
