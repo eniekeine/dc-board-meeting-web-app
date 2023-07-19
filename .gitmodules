@@ -1,0 +1,3 @@
+[submodule "dcinside-python3-api"]
+	path = dcinside-python3-api
+	url = https://github.com/eniekeine/dcinside-python3-api.git
