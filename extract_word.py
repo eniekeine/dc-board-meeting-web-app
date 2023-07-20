@@ -2,7 +2,7 @@ from soynlp.word import WordExtractor
 from soynlp.utils import DoublespaceLineCorpus
 import pandas as pd
 
-def to_datafarme(word_score_table):
+def word_score_table_to_datafarme(word_score_table):
     rows = [
         (
             word,
@@ -32,13 +32,8 @@ def to_datafarme(word_score_table):
     # Create a sample DataFrame
     return pd.DataFrame(rows, columns=columns)
 
-# 데이터프레임에 포함된 데이터가 =로 시작하는 경우 수식으로 판단되어서
-# 엑셀 파일을 열 때 해당 셀의 내용이 지워지는 문제가 있음. 대신 csv를 쓰는 것이 좋을 것 같다.
-def save_to_excel(word_score_table, output_filename):
-    to_datafarme(word_score_table).to_excel(output_filename, index=False)
-
 def save_to_csv(word_score_table, output_filename):
-    to_datafarme(word_score_table).to_csv(output_filename, index=False)
+    word_score_table_to_datafarme(word_score_table).to_csv(output_filename, index=False)
 
 def make_word_score_table(strs):
     word_extractor = WordExtractor(
