@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 db_file_name = "dcinside_corpus.db"
 db_table_name = "board_programming"
 class WordOverDateContext:
-    def __init__(self, group_pattern : str = "%Y-%m-%d"):
+    def __init__(self, group_pattern : str = "%Y-%m-%d", id_begin=1, id_end=-1):
         """
         Args:
             group_pattern (str):
@@ -14,8 +14,12 @@ class WordOverDateContext:
                 - "%Y-%m-%d" : 날짜별로
                 - "%Y-%m" : 월별로
                 - "%Y" : 연별로
+            id_begin (int): DB에서 가져올 문서 범위의 시작점을 지정한다.
+            id_end (int): DB에서 가져올 문서 범위의 끝점을 지정한다. -1일 경우 최신까지 가져온다.
         """
         self.group_pattern = group_pattern
+        self.id_begin = id_begin
+        self.id_end = id_end
 class CounterTextMatch:
     def __init__(self, keyword):
         self.keyword = keyword
@@ -42,7 +46,12 @@ def impl_word_over_date(
         cursor = conn.cursor()
         # columns : 'document_id', 'author', 'title', 'content', 'view_count', 'voteup_count', 'votedown_count', 'time'
         # DB에 저장할 때 실수로 author와 title의 순서를 바꿔먹었으므로 다음 줄은 사실 time, title, content를 가져오는 내용임
-        cursor.execute(f"SELECT time, author, content FROM {db_table_name} WHERE document_id <= 1000000")
+        query = ""
+        if context.id_end == -1:
+            query = f"SELECT time, author, content FROM {db_table_name} WHERE document_id >= {context.id_begin}"
+        else:
+            query = f"SELECT time, author, content FROM {db_table_name} WHERE document_id >= {context.id_begin} AND document_id <= {context.id_end}"
+        cursor.execute(query)
         records : list[tuple[str, str, str]] = cursor.fetchall()
         print("fetched record count : ", len(records))
         for time, title, content in records:
