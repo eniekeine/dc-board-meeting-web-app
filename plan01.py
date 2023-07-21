@@ -11,10 +11,13 @@ import numpy as np
 from scipy import sparse
 import pandas as pd
 from pprint import pprint
+raw_folder              = "./data/corpus/"
 raw_filename            = "./data/corpus/raw01.txt"
+extract_folder          = "./report/extract/"
 noun_filename_csv       = "./report/extract/noun_score_table.csv"
 table_filename_csv      = "./report/extract/word_score_table.csv"
 word_candidate_filename = "./report/extract/word_candidate.csv"
+vectorize_folder        = "./report/extract/"
 vectorized_filename     = "./report/vectorize/sentence_vectorized"
 matrix_filename         = "./report/vectorize/matrix.npz"
 idx2vocab_filename      = "./report/vectorize/idx2vocab.json"
@@ -44,6 +47,9 @@ def cache_or_get_word_table(strs):
     else:
         return load_word_score_data_frame_csv(table_filename_csv)
 if __name__ == "__main__":
+    os.makedirs(raw_folder)
+    os.makedirs(extract_folder)
+    os.makedirs(vectorize_folder)
     strs = cache_or_get_corpus()
     df_noun_table : pd.DataFrame = cache_or_get_noun_table(strs)
     df_word_table : pd.DataFrame = cache_or_get_word_table(strs)
