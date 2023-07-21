@@ -1,5 +1,4 @@
 from soynlp.word import WordExtractor
-from soynlp.utils import DoublespaceLineCorpus
 import pandas as pd
 
 def word_score_table_to_datafarme(word_score_table):
