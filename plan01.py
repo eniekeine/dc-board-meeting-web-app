@@ -47,9 +47,12 @@ def cache_or_get_word_table(strs):
     else:
         return load_word_score_data_frame_csv(table_filename_csv)
 if __name__ == "__main__":
-    os.makedirs(raw_folder)
-    os.makedirs(extract_folder)
-    os.makedirs(vectorize_folder)
+    try : os.makedirs(raw_folder)
+    except FileExistsError: pass
+    try : os.makedirs(extract_folder)
+    except FileExistsError: pass
+    try : os.makedirs(vectorize_folder)
+    except FileExistsError: pass
     strs = cache_or_get_corpus()
     df_noun_table : pd.DataFrame = cache_or_get_noun_table(strs)
     df_word_table : pd.DataFrame = cache_or_get_word_table(strs)
