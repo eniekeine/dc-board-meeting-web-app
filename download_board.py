@@ -7,45 +7,33 @@ last_id = sys.maxsize
 board_id = "programming"
 db_file_name = "dcinside_corpus.db"
 db_table_name = "board_programming"
-db_insert_query = f"INSERT INTO {db_table_name} (document_id, title, author, content, view_count, voteup_count, votedown_count, time) values (?, ?, ?, ?, ?, ?, ?, ?)"
+db_insert_query = f"INSERT INTO {db_table_name} (document_id, author, title, content, view_count, voteup_count, votedown_count, time) values (?, ?, ?, ?, ?, ?, ?, ?)"
 
-strs = []
-conn = sqlite3.connect(db_file_name)
-cursor = conn.cursor()
-cursor.execute(f"SELECT MAX(document_id) FROM {db_table_name}")
-document_id_begin = cursor.fetchone()[0]
-if document_id_begin == None:
-    document_id_begin = 1
-else:
-    document_id_begin = document_id_begin + 1
-article_id_end = 2500000
-i = 0
-
-async def run(document_id_begin, count):
-    async with dc_api.API() as api:
-        for document_id in range(document_id_begin, article_id_end):
-            global cursor
-            global conn
-            global i
-            document = await api.document(board_id, document_id)
-            if not document:
-                continue
-            print(document_id, document.title)
-            cursor.execute(db_insert_query, (
-                document_id, 
-                document.author,
-                document.title,
-                document.contents, 
-                document.view_count,
-                document.voteup_count,
-                document.votedown_count,
-                document.time
+async def run(id_begin = -1, id_end = -1):
+    with sqlite3.connect(db_file_name) as conn:
+        cursor = conn.cursor()
+        if id_begin == -1: # id_beign이 -1인 경우 데이터베이스에서 마지막으로 저장한 문서 아이디에서 출발한다.
+            cursor.execute(f"SELECT MAX(document_id) FROM {db_table_name}")
+            id_begin = cursor.fetchone()[0] + 1
+        async with dc_api.API() as api:
+            if id_end == -1: # id_end가 -1인 경우 갤러리에 올라온 가장 최신 글까지 다운받는다.
+                documentIndex : dc_api.DocumentIndex = await api.board(board_id).__anext__()
+                id_end = int(documentIndex.id)
+            for document_id in range(id_begin, id_end+1):
+                document = await api.document(board_id, document_id)
+                if not document:
+                    continue
+                print(document_id, document.title)
+                cursor.execute(db_insert_query, (
+                    document_id, 
+                    document.author,
+                    document.title,
+                    document.contents, 
+                    document.view_count,
+                    document.voteup_count,
+                    document.votedown_count,
+                    document.time   
                 ))
-            conn.commit()
-            i += 1
-            if count != -1 and i == count:
-                break       
+                conn.commit()
 
-asyncio.run(run(document_id_begin, -1))
-
-conn.close()
+asyncio.run(run(-1, -1))

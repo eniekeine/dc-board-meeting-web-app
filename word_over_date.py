@@ -44,13 +44,11 @@ def impl_word_over_date(
     table = {}
     with sqlite3.connect(db_file_name) as conn:
         cursor = conn.cursor()
-        # columns : 'document_id', 'author', 'title', 'content', 'view_count', 'voteup_count', 'votedown_count', 'time'
-        # DB에 저장할 때 실수로 author와 title의 순서를 바꿔먹었으므로 다음 줄은 사실 time, title, content를 가져오는 내용임
         query = ""
         if context.id_end == -1:
-            query = f"SELECT time, author, content FROM {db_table_name} WHERE document_id >= {context.id_begin}"
+            query = f"SELECT time, title, content FROM {db_table_name} WHERE document_id >= {context.id_begin}"
         else:
-            query = f"SELECT time, author, content FROM {db_table_name} WHERE document_id >= {context.id_begin} AND document_id <= {context.id_end}"
+            query = f"SELECT time, title, content FROM {db_table_name} WHERE document_id >= {context.id_begin} AND document_id <= {context.id_end}"
         cursor.execute(query)
         records : list[tuple[str, str, str]] = cursor.fetchall()
         print("fetched record count : ", len(records))

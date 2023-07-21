@@ -51,11 +51,10 @@ def make_corpus_txt(id_begin : int = 1, id_end : int = -1, strategy : list[Prepr
     with sqlite3.connect(db_file_name) as conn:
         cursor = conn.cursor()
         # columns : 'document_id', 'author', 'title', 'content', 'view_count', 'voteup_count', 'votedown_count', 'time'
-        # DB에 저장할 때 실수로 author와 title의 순서를 바꿔먹었으므로 다음 줄은 사실 title, content를 가져오는 내용임
         if id_end == -1:
-            cursor.execute(f"SELECT author, content FROM {db_table_name} WHERE document_id >= {id_begin}")
+            cursor.execute(f"SELECT title, content FROM {db_table_name} WHERE document_id >= {id_begin}")
         else:
-            cursor.execute(f"SELECT author, content FROM {db_table_name} WHERE document_id >= {id_begin} and document_id <= {id_end}")
+            cursor.execute(f"SELECT title, content FROM {db_table_name} WHERE document_id >= {id_begin} and document_id <= {id_end}")
         records : list[tuple] = cursor.fetchall()
         print("records : ", len(records))
         df = pd.DataFrame(records, columns =['title', 'content'])
